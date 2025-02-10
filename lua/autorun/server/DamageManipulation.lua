@@ -8,9 +8,9 @@ hook.Add( "EntityTakeDamage", "BoxOutlandsDamageCore", function( target, CDamage
     local attacker = game.GetWorld()
     local amount = CDamageInfo:GetDamage()
     if IsValid(CDamageInfo:GetAttacker()) then attacker = CDamageInfo:GetAttacker() end
-    if ( target:Health() == 0 and target:getArmor() == 0 ) or amount == 0 then return end
+    if ( target:Health() == 0 and target:Armor() == 0 ) or amount == 0 then return end
     if CDamageInfo:IsDamageType( 32 )  then
-        if attacker:isPlayer() then -- Why are we adding support for this?
+        if attacker:IsPlayer() then -- Why are we adding support for this?
             local SameTeam = GetConVar("survivor_damage_scale_team"):GetNumber() and (attacker:Team() == target:Team()) or 1 -- if same team, apply ff scalar, else 1x.
             CDamageInfo:SetDamage(amount ^ GetConVar("survivor_fall_damage_exponent"):GetNumber() * GetConVar("survivor_damage_scale_fall"):GetNumber() * GetConVar("survivor_damage_scale_plyr"):GetNumber() * SameTeam)
             return
@@ -18,7 +18,7 @@ hook.Add( "EntityTakeDamage", "BoxOutlandsDamageCore", function( target, CDamage
         CDamageInfo:SetDamage(amount ^ GetConVar("survivor_fall_damage_exponent"):GetNumber() * GetConVar("survivor_damage_scale_fall"):GetNumber())
         return
     end
-    if attacker:isPlayer() then
+    if attacker:IsPlayer() then
         local SameTeam = GetConVar("survivor_damage_scale_team"):GetNumber() and (attacker:Team() == target:Team()) or 1 -- if same team, apply ff scalar, else 1x.
         CDamageInfo:SetDamage(amount * GetConVar("survivor_damage_scale_plyr"):GetNumber() * SameTeam)
     end
